@@ -14,7 +14,7 @@ If you use it and want to quote it, here is the paper.
 1.	Wang, L., Yu, Q., Zhang, Y., Flemming, B.W., Wang, Y., Gao, S., 2020. An automated procedure to calculate the morphological parameters of superimposed rhythmic bedforms. Earth Surface Processes and Landforms. 45, 3496–3509. https://doi.org/10.1002/esp.4983
 2.	Wang, L., Yu, Q., Gao, S., 2019. A combined method to calculate superimposed 2-D dune morphological parameters. In: Lefebvre, A.; Garlan, T., and Winter, C. (eds), Proceedings of the Sixth International Conference on Marine and River Dune Dynamics (MARID VI) (Bremen, Germany), pp. 243-248. https://www.marum.de/Binaries/Binary18546/MARIDVI-Wang-Li.pdf
 
-Instructions
+## Instructions
 1.	Bathymetry data preprocessing
 The input data must be a rectangular surface saved in a mat file. It can be a matrix named ‘data’ with three columns of x, y, and depth(z) (inputtype: 1, such as the example data ‘testdata_type_1.mat’) or three meshed matrixes named ‘x’, ‘y’, and ‘z’ (inputtype: 2, such as the example data ‘testdata_type_2.mat’). 
 
@@ -25,8 +25,8 @@ Here is the example:
 1
 2
 .
-  .
-  13 
+.
+13 
 There are 2 wavelength(s) of interest, they are 9 m, 208 m.
 
 3.	Dune geometries analyses
@@ -39,18 +39,21 @@ DPA('D:\ DPA\', 'test1', 'D:\DPA\testdata_type_2.mat', 2, 9, 1);
 The subset 1_1 is finished. (1/55)
 .
 .
-  .
+.
 The subset 5_11 is finished. (55/55)
 Second run: 208 m as the wavelength of interest.
 DPA('D:\ DPA\', 'test2', 'D:\DPA\testdata_type_2.mat', 2, 208, 1);
 The subset 1_1 is finished. (1/1)
 
 4.	Outputs
- 
+ ![image](https://user-images.githubusercontent.com/58336082/129526125-ae9c1735-85c6-4cc4-a545-71ed8f35edb3.png)
+
 Outputs are saved in the output.mat file.
-  
+  ![image](https://user-images.githubusercontent.com/58336082/129526154-67c1c906-12bd-474b-8045-78c7dead6d78.png)
+
 phiM is the subset dominant dune crest orientation.
- 
+ ![image](https://user-images.githubusercontent.com/58336082/129526180-4c5c4820-f0cc-4c58-9e1b-e244dfcb688a.png)
+
 BPALL is the individual dune parameters. They are x of dune crest, y of dune crest, wavelength, left wavelength, right wavelength, wave height, asymmetry, stepness, average lee slope angle, average lee slope angle between knick points, maximum lee slope angle, and depth of dune crest.
 
 Example data
@@ -61,8 +64,4 @@ Li Wang - State Key Laboratory for Estuarine and Coastal Research, East China No
 Qian Yu - Ministry of Education Key Laboratory for Coast and Island Development, Nanjing University, Nanjing, China
 Shu Gao - State Key Laboratory for Estuarine and Coastal Research, East China Normal University, Shanghai, China
 
-If you have any questions about code, please send an email to twilight528400@hotmail.com
-
-References
-Cazenave PW, Dix JK, Lambkin DO, McNeill LC. 2013. A method for semi-automated objective quantification of linear bedforms from multi-scale digital elevation models. Earth Surface Processes and Landforms 38(3): 221–236.
-Gutierrez RR, Abad JD, Parsons DR, Best JL. 2013. Discrimination of bed form scales using robust spline filters and wavelet transforms: Methods and application to synthetic signals and bed forms of the Río Paraná, Argentina. Journal of Geophysical Research: Earth Surface 118(3): 1400–1418.
+## If you have any questions, please send an email to twilight528400@hotmail.com
