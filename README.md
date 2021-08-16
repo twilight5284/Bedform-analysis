@@ -48,10 +48,8 @@ The subset 1_1 is finished. (1/1)
 4.	Outputs
 
 ![image](https://user-images.githubusercontent.com/58336082/129526125-ae9c1735-85c6-4cc4-a545-71ed8f35edb3.png)
-
 Outputs are saved in the output.mat file.
 ![image](https://user-images.githubusercontent.com/58336082/129526154-67c1c906-12bd-474b-8045-78c7dead6d78.png)
-
 phiM is the subset dominant dune crest orientation.
 ![image](https://user-images.githubusercontent.com/58336082/129526180-4c5c4820-f0cc-4c58-9e1b-e244dfcb688a.png)
 
