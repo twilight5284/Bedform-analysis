@@ -46,22 +46,18 @@ DPA('D:\ DPA\', 'test2', 'D:\DPA\testdata_type_2.mat', 2, 208, 1);
 The subset 1_1 is finished. (1/1)
 
 4.	Outputs
- ![image](https://user-images.githubusercontent.com/58336082/129526125-ae9c1735-85c6-4cc4-a545-71ed8f35edb3.png)
+
+![image](https://user-images.githubusercontent.com/58336082/129526125-ae9c1735-85c6-4cc4-a545-71ed8f35edb3.png)
 
 Outputs are saved in the output.mat file.
-  ![image](https://user-images.githubusercontent.com/58336082/129526154-67c1c906-12bd-474b-8045-78c7dead6d78.png)
+![image](https://user-images.githubusercontent.com/58336082/129526154-67c1c906-12bd-474b-8045-78c7dead6d78.png)
 
 phiM is the subset dominant dune crest orientation.
- ![image](https://user-images.githubusercontent.com/58336082/129526180-4c5c4820-f0cc-4c58-9e1b-e244dfcb688a.png)
+![image](https://user-images.githubusercontent.com/58336082/129526180-4c5c4820-f0cc-4c58-9e1b-e244dfcb688a.png)
 
 BPALL is the individual dune parameters. They are x of dune crest, y of dune crest, wavelength, left wavelength, right wavelength, wave height, asymmetry, stepness, average lee slope angle, average lee slope angle between knick points, maximum lee slope angle, and depth of dune crest.
 
-Example data
+## Example data
 The example data is a 500 m × 1000 m rectangular domain located on a sandbank in the north of the Dover Strait, UK, called South Falls. The bathymetric data was downloaded from a website called UKHO INSPIRE Portal & Bathymetry DAC (http://aws2.caris.com/ukho/mapViewer/map.action), which is provided by the UK Hydrographic Office (www.ukho.gov.uk) under an open government license. 
-
-Author
-Li Wang - State Key Laboratory for Estuarine and Coastal Research, East China Normal University, Shanghai, China 
-Qian Yu - Ministry of Education Key Laboratory for Coast and Island Development, Nanjing University, Nanjing, China
-Shu Gao - State Key Laboratory for Estuarine and Coastal Research, East China Normal University, Shanghai, China
 
 ## If you have any questions, please send an email to twilight528400@hotmail.com
