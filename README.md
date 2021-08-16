@@ -22,13 +22,16 @@ The input data must be a rectangular surface saved in a mat file. It can be a ma
 ### 2.	Measurement of the wavelength of interest
 
 The function LT can be used to calculate the wavelength of interest, and display the bathymetry map and a typical bedform profile perpendicular to the dune crest. After the calculation, the results will be displayed. 
+
 Here is the example:
+
 [LT, T, PHID] = LT('D:\DPA\testdata_type_2.mat', 2);
 1
 2
 .
 .
 13 
+
 There are 2 wavelength(s) of interest, they are 9 m, 208 m.
 
 ### 3.	Dune geometries analyses
@@ -36,16 +39,24 @@ There are 2 wavelength(s) of interest, they are 9 m, 208 m.
 The wavelength of interest calculated by the LT function is the input of the dune parameters calculation. Besides, the surface matrix, inputtype, data resolutions, project storage path, and folder name are also the inputs of the DPA function. After the calculation, the results will be saved in the project folder. 
 
 There are two wavelengths of interest in the example data, so we need to run it twice.
+
 Here is the example: 
+
 First run: 9 m as the wavelength of interest.
+
 DPA('D:\ DPA\', 'test1', 'D:\DPA\testdata_type_2.mat', 2, 9, 1);
+
 The subset 1_1 is finished. (1/55)
 .
 .
 .
+
 The subset 5_11 is finished. (55/55)
+
 Second run: 208 m as the wavelength of interest.
+
 DPA('D:\ DPA\', 'test2', 'D:\DPA\testdata_type_2.mat', 2, 208, 1);
+
 The subset 1_1 is finished. (1/1)
 
 ### 4.	Outputs
