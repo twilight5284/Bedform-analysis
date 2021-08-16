@@ -64,6 +64,7 @@ The subset 1_1 is finished. (1/1)
 Outputs are saved in the output.mat file.
 phiM is the subset dominant dune crest orientation.
 BPALL is the individual dune parameters. They are x of dune crest, y of dune crest, wavelength, left wavelength, right wavelength, wave height, asymmetry, stepness, average lee slope angle, average lee slope angle between knick points, maximum lee slope angle, and depth of dune crest.
+
 ![image](https://user-images.githubusercontent.com/58336082/129526180-4c5c4820-f0cc-4c58-9e1b-e244dfcb688a.png)
 
 ## Example data
