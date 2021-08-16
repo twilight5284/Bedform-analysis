@@ -1,4 +1,4 @@
-function [bedformProfile] = ScaleDiscr(filedir,WT,L)
+function [bedformProfile] = ScaleDiscr(filedir,WT,L,resolution)
 %% bedform Discrimination
 % Three scales of bedforms are separated by wavelet analyses and robust spline filters.
 %
@@ -129,7 +129,7 @@ for j=1:length(WT)
     P3  = bedformProfile(j).n33;
     
    %% Smooth each Level
-    P2S = smooth(P2,0.2*L,'moving');
+    P2S = smoothts(P2,'g',fix(0.25*L/resolution));
     P1S = P1+P2-P2S;
     bedformProfile(j).n13s = P1S;
     bedformProfile(j).n23s = P2S;

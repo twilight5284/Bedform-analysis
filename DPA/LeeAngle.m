@@ -1,4 +1,4 @@
-function [LAmean,LSAmean,LAmax] = LeeAngle(LAC,resolution,S)
+function [LAmean,LSAmean,LAmax] = LeeAngle(LAC,resolution,Or)
 %% lee slope angle calculation
 % INPUTS
 %     LAC - lee slope curve
@@ -21,18 +21,23 @@ LAmax = [];
 LAMax = [];
 loc = [];
 
-LAC(:,2) = smooth(LAC(:,2),size(LAC,1)/3,'moving');
+% LAC(:,2) = smooth(LAC(:,2),size(LAC,1)/3,'moving'); % ≤ª∆Ωª¨º∆À„lee slope
 
-DL1 = diff(LAC(:,2))/resolution;
+DL1 = Or * diff(LAC(:,2))/resolution;
 
 LA = atand(abs(DL1));
-LA0 = LA +S;
-LAMax = find(LA == max(LA));
+LA0 = LA.*(DL1./abs(DL1));
+if size(LA,1) < 3
+    LAMax = find(LA0 == max(LA0));
+else
+    LAMax = find(LA0 == max(LA0(2:end-1)));
+end    
 loc = mean(LAMax);
-DL2 = diff(LAC(:,2),2)/resolution;
+LAC(:,3) = smooth(LAC(:,2),floor(size(LAC,1)/2.5));
+DL2 = diff(LAC(:,3),2)/resolution;
 if size(DL2,1) < 3 
-    LAmean = mean(LA0);
-    LSAmean = mean(LA0);
+    LAmean = mean(LA0(find(LA0>0)));
+    LSAmean = mean(LA0(find(LA0>0)));
     LAmax = max(LA0);
 else 
   if loc == size(LA,1)
@@ -47,23 +52,23 @@ else
   else
     locb = loc-1;
   end
-  if mean(DL1) > 0  
+  if loc > size(LA,1)/5 & loc < 4*size(LA,1)/5
+      Lmax = find(DL2(locb:floor(4*size(DL2,1)/5)) == min(DL2(locb:floor(4*size(DL2,1)/5)))) + locb - 1;
+      Lmin = find(DL2(ceil(size(LA,1)/5):loca,1) == max(DL2(ceil(size(LA,1)/5):loca)));
+  else    
       Lmax = find(DL2(locb:size(DL2,1)) == min(DL2(locb:size(DL2,1)))) + locb - 1;
       Lmin = find(DL2(1:loca,1) == max(DL2(1:loca)));
-  else
-      Lmin = find(DL2(1:loca) == min(DL2(1:loca)));
-      Lmax = find(DL2(locb:size(DL2,1)) == max(DL2(locb:size(DL2,1)))) + locb - 1;
-  end
-  if Lmin == Lmax
-    LAmean = mean(LA0);
-    LSAmean = mean(LA0);
+  end    
+  if (size(Lmin) == size(Lmax)) & (Lmin == Lmax)
+    LAmean = mean(LA0(find(LA0>0)));
+    LSAmean = mean(LA0(find(LA0>0)));
     LAmax = max(LA0);
   else
-    LAmean = mean(LA0);
-    LSAmean = mean(LA0(max(Lmin):min(Lmax)+1));
+    LAmean = mean(LA0(find(LA0>0)));
+    LSAmean = mean(LA0(find(LA0(max(Lmin):min(Lmax)+1)>0)));
     LAmax = max(LA0);
   end
 end
-if LSAmean < LAmean
+if isnan(LSAmean)
     LSAmean = LAmean;
 end

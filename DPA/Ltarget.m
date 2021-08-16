@@ -38,7 +38,7 @@ function [L1,L2] = Ltarget(x,y)
         H1=mean(maxtab(:,2))-mean(mintab(:,2));
      end
  end    
- L1=(max(x)-min(x))/(max(size(maxtab,1),size(mintab,1)+1));
+ L1=(max(x)-min(x))/(max(size(maxtab,1),size(mintab,1)));
     
  tb = (size(maxtab,1) - size(mintab,1));
  switch tb 
@@ -50,7 +50,7 @@ function [L1,L2] = Ltarget(x,y)
          maxtab(size(maxtab,1),:)=[];
  end    
     
- H0 = std(maxtab(:,2)-mintab(:,2));
+ H0 = mean(abs(maxtab(:,2)-mintab(:,2)));
  Hdiff = H0 - H1;
  switch Hdiff
      case Hdiff >= 0
@@ -60,4 +60,4 @@ function [L1,L2] = Ltarget(x,y)
  end        
  
  [maxtab, mintab] = peakdet(y, H2);
- L2 = 2*(max(x)-min(x))/(size(maxtab,1)+size(mintab,1));
+ L2 = (max(x)-min(x))/max(size(maxtab,1),size(mintab,1));

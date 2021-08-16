@@ -1,4 +1,4 @@
-function [phiM,lambdaM,L_M,H_M,BPf]=Calculation(filepath,projectname,x,y,z,L,resolution)
+function [phiM,lambdaM,L_M,H_M,BPf,CT0]=Calculation(filepath,projectname,x,y,z,L,resolution)
 %% Dune Parameters Calculation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Dune regional pattern are calculated by two dimensional Fourier analysis;
@@ -24,8 +24,9 @@ function [phiM,lambdaM,L_M,H_M,BPf]=Calculation(filepath,projectname,x,y,z,L,res
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% calculate the dune regional pattern by 2-D DFT
-[dirArrayM,lambdaArrayM,phiM,stdDir,lambdaM,stdLambda] = wlFFT(x,y,z,L);
+[dirArrayM,lambdaArrayM,phiM0,stdDir,lambdaM,stdLambda] = wlFFT(x,y,z,L,resolution);
 
+phiM=90;
 %% rotate the surface according to the dune orientation 
 [X,Y,Z,Z0,Xb,Yb] = Rot_Grid(x,y,z,phiM,L,resolution);
 
@@ -33,73 +34,72 @@ function [phiM,lambdaM,L_M,H_M,BPf]=Calculation(filepath,projectname,x,y,z,L,res
 [WT]=WTA(X,Y,Z0,filepath,projectname,resolution,L);
 
 %% bedform discrimination 
-[bedformProfile] = ScaleDiscr(filepath,WT,L);
+[bedformProfile] = ScaleDiscr(filepath,WT,L,resolution);
 
 
 %% extract the crest and trough points, calculate the  dune morphological parameters
 [CT,BP] = CT_BP(bedformProfile,Y,Z,Z0,L,resolution);
 
 %% the original coordinate
-CT_O = [];
+CT0 = CT;
 if (~isempty(CT))
-   CT_O(:,1) = ((CT(:,1))*cosd(90-phiM)-(CT(:,2))*sind(90-phiM))+Xb;
-   CT_O(:,2) = ((CT(:,1))*sind(90-phiM)+(CT(:,2))*cosd(90-phiM))+Yb;
-   CT_O(:,3) = CT(:,3);
+   CT0(:,1) = ((CT(:,1))*cosd(90-phiM)-(CT(:,2))*sind(90-phiM))+Xb;
+   CT0(:,2) = ((CT(:,1))*sind(90-phiM)+(CT(:,2))*cosd(90-phiM))+Yb;
 end
-BP0 = [];
+BP0 = BP;
 if (~isempty(BP))
   BP0(:,1) = ((BP(:,1))*cosd(90-phiM)-(BP(:,2))*sind(90-phiM))+Xb;
   BP0(:,2) = ((BP(:,1))*sind(90-phiM)+(BP(:,2))*cosd(90-phiM))+Yb;
-  BP0(:,3:12) = BP(:,3:12);
+else 
+    BP=zeros(10,12);
 end
-
-
+  
 %% calculate the average L and H
-if (~isempty(BP))
-  L_M = mean(BP(:,3));
-  std_L_M = std(BP(:,3));
 
-  std_H_M = std(BP(:,6));
-  H_M = mean(BP(:,6));
-end
+ L_M = mean(BP(:,3));
+ std_L_M = std(BP(:,3));
+ std_H_M = std(BP(:,6));
+ H_M = mean(BP(:,6));
+
+
 %% delete the dunes which are too small 
-for l=1:1:size(BP0,1)
+if (~isempty(BP0))
+  for l=1:1:size(BP0,1)
    if  (BP0(l,6) <= (H_M/5))|(BP0(l,3) <= (L_M/5))
        BP0(l,:) = NaN;
    end
-end   
-BP0=BP0(find(~isnan(BP0(:,1))),:);
+  end   
+  BP0=BP0(find(~isnan(BP0(:,1))),:);
+end  
+
 
 %% delete the isolated points
-[BPf] = Distfilter(BP0,L);
+if (~isempty(BP0))
+    [BPf] = Distfilter(BP0,L);
+else
+    BPf=[];
+end
 
 %% give the dune moving direction 
-if mean(BP0(:,7)) < 1
+if (~isempty(BP0))    
+  if mean(BP0(:,7)) < 1
     Phi = 360-phiM;
-elseif mean(BP0(:,7)) == 1
+  elseif mean(BP0(:,7)) == 1
     Phi = 'symmetrical';
-else
+  else
     Phi = phiM;
-end 
+  end
+else
+    Phi=NaN;
+end    
+
 
 %% save all outputs
+
 save([filepath,'output.mat'],...
     'dirArrayM','Phi','phiM','stdDir','lambdaArrayM','lambdaM','stdLambda',...
     'x','y','z','X','Y','Z','Z0','Xb','Yb',...
     'bedformProfile',...
-    'CT','BP','CT_O','BP0','BPf',...
+    'CT','BP','CT0','BP0','BPf',...
     'L_M','std_L_M','H_M','std_H_M'); 
 
-function [BPf] = Distfilter(BP0,L)
-DistLag = max(2,floor(L/50));
-DuneCrest = BP0(:,1:2);
-DistNum = [];
-for i = 1:size(BP0,1)
-    Dist = [];
-    DC0 = DuneCrest(i,:);
-    Dist = sqrt((DuneCrest(:,1)-DC0(1)).^2+(DuneCrest(:,2)-DC0(2)).^2);
-    DistNum(i,1) = length(find(Dist < 10*DistLag));
-end  
-DistFil = find(DistNum < 10);
-BPf=BP0;
-BPf(DistFil,:)=[];

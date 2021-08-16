@@ -16,8 +16,7 @@ function [WT] = WTA(X,Y,Z,filepath,name,resolution,L)
 TitleFig = name;
 
 [raw,col]=size(Z);
-lagt = max(2,floor(L/50));
-lag = ceil(lagt/resolution);
+lag = 1;
 sampleFreq = resolution;
 
 WT = {};

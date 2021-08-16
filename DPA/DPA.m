@@ -16,7 +16,7 @@ function DPA(filedir,projectname,input,inputtype,L,resolution)
 %         type 1: a matrix named 'data' with 3 columns, they are x, y, and z.  
 %         type 2: three matrixes with same rows and columns£¬they are 
 %                 grided x, y, and z matrixes.
-%     inputtype - the type of input matrix, it could be 1 or 2;
+%     inputtype - the type of input matrix, it could be 1 or 2;  
 %     L - the wavelength of the dunes of interest. Using the LT function,
 %         you can find the wavelength values of interest;
 %     resolution - the resolution of the data. 
@@ -73,7 +73,7 @@ for i=1:NumX
         save([filepath2,'input.mat'],'x','y','z');
         
         % calculate the dune parameters of each subset
-        [phiM,lambdaM,L_M,H_M,BPf]=Calculation(filepath2,filename,x,y,z,L,resolution);
+        [phiM,lambdaM,L_M,H_M,BPf,CT0]=Calculation(filepath2,filename,x,y,z,L,resolution);
         
         % save the output of each subset
         PhiM(i,j) = phiM;
@@ -81,6 +81,7 @@ for i=1:NumX
         LM(i,j) = L_M;
         HM(i,j) = H_M;
         BPall{i,j} = BPf;
+        CTall{i,j} = CT0;
         NS = num2str((i-1)*NumY + j);
         NT = num2str(NumX*NumY);
         disp(['The subset ' num2str(i) '_' num2str(j) ' is finished. (' NS '/' NT ')']);
@@ -95,6 +96,9 @@ BPALL=[];
 for i = 1:size(BPall,1)
     for j = 1:size(BPall,2)
         Temp = BPall{i,j};
+        if isempty(Temp)
+            continue;
+        end    
         Xa=BX(1,(2*j-1));
         Xb=BX(1,(2*j));
         Ya=BY((2*i-1),1);
@@ -106,8 +110,25 @@ for i = 1:size(BPall,1)
         BPALL = cat(1,BPALL,Temp);
     end
 end
-
+CTALL=[];
+for i = 1:size(CTall,1)
+    for j = 1:size(CTall,2)
+        Temp = CTall{i,j};
+        if isempty(Temp)
+            continue;
+        end   
+        Xa=BX(1,(2*j-1));
+        Xb=BX(1,(2*j));
+        Ya=BY((2*i-1),1);
+        Yb=BY((2*i),1);
+        Temp(find(Temp(:,1)<Xa),:) = [];
+        Temp(find(Temp(:,1)>Xb),:) = [];
+        Temp(find(Temp(:,2)<Ya),:) = [];
+        Temp(find(Temp(:,2)>Yb),:) = [];
+        CTALL = cat(1,CTALL,Temp);
+    end
+end
 %% save results of all
 mkdir(filepath1,'all');
 filepath3 = [filepath1,'all','\'];
-save([filepath3,'output.mat'],'x0','y0','z0','PhiM','LambdaM','LM','HM','BPall','BPALL');
+save([filepath3,'output.mat'],'x0','y0','z0','PhiM','LambdaM','LM','HM','BPall','BPALL','CTALL');

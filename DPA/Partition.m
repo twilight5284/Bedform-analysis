@@ -31,13 +31,7 @@ else
     [X,Y] = meshgrid(floor(min(min(data(:,1)))):resolution:ceil(max(max(data(:,1)))),floor(min(min(data(:,2)))):resolution:ceil(max(max(data(:,2)))));
     Z = griddata(data(:,1),data(:,2),data(:,3),X,Y,'linear');
     Z0 = griddata(data(:,1),data(:,2),data(:,3),X,Y,'nearest');
-    Z(1,:) = Z0(1,:);
-    N1 = size(Z,2);
-    N2 = size(Z,1);
-    Z(N2,:) = Z0(N2,:);
-    Z(:,N1) = Z0(:,N1);
-    Z(1,:) = Z0(1,:);
-    Z(:,1) = Z0(:,1);
+    Z(find(isnan(Z)))=Z0(find(isnan(Z)));
 end
 
 minx = min(X(1,:));
@@ -67,8 +61,8 @@ else
     BorderX(1,1) = 1;
     BorderX(1,2*Q1) = size(X,2);
     for i = 2:Q1
-        BorderX(1,(2*i-2)) = NumReso*(10*(i-1)*L+Mx)+2*NumReso*L+1;
-        BorderX(1,(2*i-1)) = NumReso*(10*(i-1)*L+Mx)-2*NumReso*L+1;
+        BorderX(1,(2*i-2)) = floor(NumReso*(10*(i-1)*L+Mx)+2*NumReso*L+1);
+        BorderX(1,(2*i-1)) = ceil(NumReso*(10*(i-1)*L+Mx)-2*NumReso*L+1);
     end
 end
 
@@ -80,8 +74,8 @@ else
     BorderY(1,1) = 1;
     BorderY(1,2*Q2) = size(X,1);
     for j = 2:Q2
-        BorderY(1,(2*j-2)) = NumReso*(10*(j-1)*L+My)+2*NumReso*L+1;
-        BorderY(1,(2*j-1)) = NumReso*(10*(j-1)*L+My)-2*NumReso*L+1;
+        BorderY(1,(2*j-2)) = floor(NumReso*(10*(j-1)*L+My)+2*NumReso*L+1);
+        BorderY(1,(2*j-1)) = floor(NumReso*(10*(j-1)*L+My)-2*NumReso*L+1);
     end
 end
 

@@ -1,4 +1,4 @@
-function [dirArrayM,lambdaArrayM,phiM,stdDir,lambdaM,stdLambda] = wlFFT(x,y,z,L)
+function [dirArrayM,lambdaArrayM,phiM,stdDir,lambdaM,stdLambda] = wlFFT(x,y,z,L,resolution)
 %% Regional dominant pattern calculation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % The dominant regional dune orientation and wavelength of a surface are 
@@ -66,9 +66,9 @@ filterDistance = sqrt(KX.^2+KY.^2);
 
 
 % Multiple data filtering are applied before Fourier analysis
-zz = SmDetrend(z,L,1);
-zzz = SmDetrend(zz,L,1);
-zzzz = SmDetrend(zzz,L,1);
+zz = SmDetrend(z,L,1,resolution);
+zzz = SmDetrend(zz,L,1,resolution);
+zzzz = SmDetrend(zzz,L,1,resolution);
 
 % Apply the FFT with filling zero.    
 S = fft2(zzz,max(size(z)),max(size(z)));

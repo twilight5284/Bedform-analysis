@@ -1,4 +1,4 @@
-function [LT,T,PHID] = LT(input,inputtype)
+function [LT,T,PHID] = LT(input,inputtype,resolution)
 %% find the wavelength of interest
 % A series of 2D DFT calculations are used to find out the wavelength of
 % interest.
@@ -26,7 +26,6 @@ function [LT,T,PHID] = LT(input,inputtype)
 
 %%
 load (input);
-resolution =1;
 if inputtype == 2
     X = x;
     Y = y;
@@ -64,7 +63,7 @@ b=1.5.^a;
 b=ceil(b);    % Exponential sequence
 while b(1,i) < min(t,1000)
     % Calculation of possible regional dune wavelengths with 2D DFT
-    [~,~,phiM,~,lambdaM,~] = wlFFT(X,Y,Z,b(1,i));  
+    [~,~,phiM,~,lambdaM,~] = wlFFT(X,Y,Z,b(1,i),resolution);  
     T(i,1)=b(1,i);
     T(i,2)=phiM;
     T(i,3)=lambdaM;
@@ -136,8 +135,8 @@ L = sqrt(Xprof2.^2 + Yprof2.^2);
 D = Zprof0;
 L0 = [0:1:floor(max(L))];
 D0 = interp1(L,D,L0);
-L0 = L0(find(isnan(D0) ~= 1));          %     the length of the profile
-D0 = D0(find(isnan(D0) ~= 1));          %     the depth of the profile
+L0 = L0(find(~isnan(D0)));          %     the length of the profile
+D0 = D0(find(~isnan(D0)));          %     the depth of the profile
 
 %  Analyzing the periodic characteristics of the profile with Wavelet transform
 [wltPower, fourierPeriod, coneOfInfluence] = ...

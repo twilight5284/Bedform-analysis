@@ -1,4 +1,4 @@
-function [z0] = SmDetrend(z,L,d)
+function [z0] = SmDetrend(z,L,d,resolution)
 %% surface and profile filter
 %
 % INPUTS:
@@ -21,11 +21,11 @@ Num = size(z);
 if d == 1
   zz=[];  
   for i = 1:Num(1)
-    zz(i,:) = smoothts(z(i,:),'e',0.75*L)'; 
+    zz(i,:) = smoothts(z(i,:),'e',fix(0.75*L/resolution))'; 
   end
   zzz=[];
   for j = 1:Num(2)
-    zzz(:,j) = smoothts(zz(:,j),'e',0.75*L); 
+    zzz(:,j) = smoothts(zz(:,j),'e',fix(0.75*L/resolution)); 
   end
   z0=z-zzz;
   
@@ -33,7 +33,7 @@ if d == 1
 elseif d == 2
   zz=[];  
   for i = 1:Num(1)
-    zz(i,:) = smooth(z(i,:),3*L,'moving')'; 
+    zz(i,:) = smooth(z(i,:),3*fix(L/resolution),'moving')'; 
   end
   z0=z-zz;
   
@@ -41,7 +41,7 @@ elseif d == 2
 else
   zzz=[];
   for j = 1:Num(2)
-    zzz(:,j) = smooth(z(:,j),3*L,'moving'); 
+    zzz(:,j) = smooth(z(:,j),3*fix(L/resolution),'moving'); 
   end
   z0=z-zzz;
 end

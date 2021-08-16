@@ -25,7 +25,8 @@ function [target1,target2,target3,scaleData] = TargetL(L1,L2,L,mintab,smoothData
  maxp=[];
  mintab3=[];
  mintab0 = mintab;
- Ldiff = abs(L-L1) - abs(L-L2);
+ Ldiff = max(L/L1,L1/L) - max(L/L2,L2/L);
+ 
  
  switch (Ldiff < 0)
      case 1  
@@ -35,7 +36,15 @@ function [target1,target2,target3,scaleData] = TargetL(L1,L2,L,mintab,smoothData
          switch  a
              case -1
                  mintab2=mintab((find(mintab(:,2)<=0)),:);
-                 [~,target2] = searchclosest(mintab2,L);
+                 [~,target2] = searchclosest(mintab2(:,1),L);
+                 if max(target2/L,L/target2)>5
+                     mintab((find(mintab(:,2)<=0)),:)=[];
+                     mintab2=[];
+                     mintab2=mintab;
+                     mintab2(:,2)=(mintab2(:,2)-min(mintab2(:,2)))/abs(min(mintab2(:,2)));
+                     maxp = mintab2((find(mintab2(:,2) <= 0.5)),1);
+                     [~,target2] = searchclosest(maxp,L);  
+                 end  
              otherwise
                  mintab2=mintab(find((mintab(:,1) < 3*L) & (mintab(:,1) > L/5)),:);
                  mintab2(:,2)=(mintab2(:,2)-min(mintab2(:,2)))/abs(min(mintab2(:,2)));
@@ -43,24 +52,25 @@ function [target1,target2,target3,scaleData] = TargetL(L1,L2,L,mintab,smoothData
                  [~,target2] = searchclosest(maxp,L);  
          end
          % target1
-         mintab1 = mintab((find(mintab(:,1)<(target2/3))),:);
+         mintab1 = mintab((find(mintab(:,1)<(min(target2,L)/4))),:);
          b = size(mintab1,1);
          switch b
              case 0
-                 target1=min(L1,target2/3);
+                 target1=min(L1,min(target2,L)/4);
              otherwise
                  mintab1(:,2)=(mintab1(:,2)-min(mintab1(:,2)))/abs(min(mintab1(:,2)));
                  minp = mintab1((find(mintab1(:,2) <= 0.5)),1);
-                 [~,target1] = searchclosest(minp,min(L1,target2/3));
+                 [~,target1] = searchclosest(minp,min(L1,min(target2,L)/4));
          end
          % target3
          mintab3 = mintab((find(mintab(:,1)>(3*max(target2,L1)))),:);
          c = size(mintab3,1);
          switch c
              case 0
-                 target3=3*max(target2,L1);
+                 target3=max(3*max(target2,L1),3.5*L);
              otherwise
-                 target3=mintab3((find(mintab3(:,2)==(min(mintab3(:,2))))),1); 
+                 target3=mintab3((find(mintab3(:,2)==(min(mintab3(:,2))))),1);
+                 target3=max(target3, 3.5*L);
          end                 
 
      case 0
@@ -70,7 +80,15 @@ function [target1,target2,target3,scaleData] = TargetL(L1,L2,L,mintab,smoothData
          switch  a
              case -1
                  mintab2=mintab((find(mintab(:,2)<=0)),:);
-                 [~,target2] = searchclosest(mintab2,L);
+                 [~,target2] = searchclosest(mintab2(:,1),L);
+                 if max(target2/L,L/target2)>5
+                     mintab((find(mintab(:,2)<=0)),:)=[];
+                     mintab2=[];
+                     mintab2=mintab;
+                     mintab2(:,2)=(mintab2(:,2)-min(mintab2(:,2)))/abs(min(mintab2(:,2)));
+                     maxp = mintab2((find(mintab2(:,2) <= 0.5)),1);
+                     [~,target2] = searchclosest(maxp,L);  
+                 end    
              otherwise    
                  mintab2=mintab;
                  mintab2(:,2)=(mintab2(:,2)-min(mintab2(:,2)))/abs(min(mintab2(:,2)));
@@ -79,7 +97,7 @@ function [target1,target2,target3,scaleData] = TargetL(L1,L2,L,mintab,smoothData
          end
          
          % target1
-         mintab1 = mintab((find(mintab(:,1)<(target2/3))),:);
+         mintab1 = mintab((find(mintab(:,1)<(min(target2,L)/4))),:);
          b = size(mintab1,1);
          switch b
              case 0
@@ -94,9 +112,10 @@ function [target1,target2,target3,scaleData] = TargetL(L1,L2,L,mintab,smoothData
          c = size(mintab3,1);
          switch c
              case 0
-                 target3=2*max([target2,L2,L]);
+                 target3=max(2*max([target2,L2,L]),3.5*L);
              otherwise
-                 target3=mintab3((find(mintab3(:,2)==(min(mintab3(:,2))))),1); 
+                 target3=mintab3((find(mintab3(:,2)==(min(mintab3(:,2))))),1);
+                 target3=max(target3, 3.5*L);
          end        
  end
     

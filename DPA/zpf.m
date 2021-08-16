@@ -4,6 +4,14 @@ function [tc0,pc0] = zpf(tc,pc,L)
 % times of the wavelength of interest, they would be filtered out.
 % 
 
+  [tc1,pc1] = L3L1(tc,pc,L);
+  [tc2,pc2] = L3L1(tc1,pc1,L);
+  [tc3,pc3] = L3L2(tc2,pc2,L);
+  [tc4,pc4] = L3L2(tc3,pc3,L);
+  
+  tc0=tc4;
+  pc0=pc4;
+  function [tc0,pc0] = L3L1(tc,pc,L) 
   zeroi=[];
   for zeroi = 1:2:(length(pc)-2)
     sig1 = pc(zeroi+2)-pc(zeroi);
@@ -14,33 +22,10 @@ function [tc0,pc0] = zpf(tc,pc,L)
       pc(zeroi+1) = NaN;
     end
   end
-  tc = tc(1,find(~isnan(tc)));
-  pc = pc(1,find(~isnan(tc)));
-  zeroj=[];
-  for zeroj = 1:2:(length(pc)-2)
-    sig1 = pc(zeroj+2)-pc(zeroj);
-    if sig1 < 0.3*L
-      tc(zeroj) = NaN;
-      tc(zeroj+1) = NaN;
-      pc(zeroj) = NaN;
-      pc(zeroj+1) = NaN;
-    end
-  end
-  tc = tc(find(~isnan(tc)));
-  pc = pc(find(~isnan(tc)));
-  
-  zerok=[];
-  for zerok = 2:2:(length(pc)-2)
-    sig1 = pc(zerok+2)-pc(zerok);
-    if sig1 < 0.3*L
-      tc(zerok) = NaN;
-      tc(zerok+1) = NaN;
-      pc(zerok) = NaN;
-      pc(zerok+1) = NaN;
-    end
-  end
-  tc = tc(find(~isnan(tc)));
-  pc = pc(find(~isnan(tc)));
+  tc0 = tc(1,find(~isnan(tc)));
+  pc0 = pc(1,find(~isnan(tc)));      
+ 
+  function [tc0,pc0] = L3L2(tc,pc,L) 
   zerol=[];
   for zerol = 2:2:(length(pc)-2)
     sig1 = pc(zerol+2)-pc(zerol);
@@ -51,9 +36,5 @@ function [tc0,pc0] = zpf(tc,pc,L)
       pc(zerol+1) = NaN;
     end
   end
-  tc = tc(find(~isnan(tc)));
-  pc = pc(find(~isnan(tc)));
-  tc0=tc;
-  pc0=pc;
-  
-  
+  tc0 = tc(find(~isnan(tc)));
+  pc0 = pc(find(~isnan(tc)));

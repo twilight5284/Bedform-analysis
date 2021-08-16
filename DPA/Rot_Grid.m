@@ -31,15 +31,15 @@ end
 
 % profile filtering 
 if 45 < phiM < 135
-  z0 = SmDetrend(z,L,2);
+  z0 = SmDetrend(z,L,2,resolution);
 else
-  z0 = SmDetrend(z,L,3);
+  z0 = SmDetrend(z,L,3,resolution);
 end
 
 % regird the surface depth
 Z = griddata(X0,Y0,z,X,Y,'linear');
 Z0 = griddata(X0,Y0,z0,X,Y,'linear');
-indexL = find(sum((~isnan(Z)),2) < 3*L);
+indexL = find(resolution*sum((~isnan(Z)),2) < 3*L);
 X(indexL,:)=[];
 Y(indexL,:)=[];
 Z(indexL,:)=[];
