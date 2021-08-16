@@ -1,17 +1,18 @@
 # DPA: A Bedform Analysis Procedure
 DPA (Dune Parameters Analysis) is presented as a free MATLAB software for analyzing bedform geometry parameters. 
 
-Method framework
+## Method framework
 This is an automated method, combining 2D Fourier analysis, wavelet transform, zero-crossing analysis and a variety of filters.
 Firstly, the wavelength of interest can be automatically determined by a series of 2D Fourier analyses. Secondly, the dominant regional orientation of the surfaces is calculated by the 2D DFT (Cazenave et al., 2013). Thirdly, the matrix is rotated, re-gridded, and split into numerous profiles. Target bedform profiles are separated by wavelet transform and spline filters (Gutierrez et al., 2013). Then, dune crests and troughs are extracted by zero-crossing analysis. Finally, the individual geometric parameters such as wavelength, height, asymmetry, lee-slope angle and so on, are calculated. 
 
-Dune parameters definition 
+## Dune parameters definition 
 The wavelength is defined as the distance between subsequent trough locations and height as the perpendicular distance between the crest and the straight line connecting the adjacent troughs. The asymmetry is defined as the difference of the distance between the crest and the trough west of the crest and the distance between the crest and the trough east of the crest divided by the wavelength. The average and maximum lee-slope angles are detected by the derivative of the lee-slope of the dune.
-Important
-This program is a free software in the hope that it will be useful. And you can redistribute it and/or modify it. 
+## Important
+This program is a free software in the hope that it can be useful. And you can redistribute it and/or modify it. 
 
 If you use it and want to quote it, here is the paper.
-Wang, L.; Yu, Q.; Gao, S.; Zhang, Y., and Flemming BW. Submitted. An automated procedure to calculate the morphological parameters of superimposed two-dimensional dunes.
+1.	Wang, L., Yu, Q., Zhang, Y., Flemming, B.W., Wang, Y., Gao, S., 2020. An automated procedure to calculate the morphological parameters of superimposed rhythmic bedforms. Earth Surface Processes and Landforms. 45, 3496–3509. https://doi.org/10.1002/esp.4983
+2.	Wang, L., Yu, Q., Gao, S., 2019. A combined method to calculate superimposed 2-D dune morphological parameters. In: Lefebvre, A.; Garlan, T., and Winter, C. (eds), Proceedings of the Sixth International Conference on Marine and River Dune Dynamics (MARID VI) (Bremen, Germany), pp. 243-248. https://www.marum.de/Binaries/Binary18546/MARIDVI-Wang-Li.pdf
 
 Instructions
 1.	Bathymetry data preprocessing
