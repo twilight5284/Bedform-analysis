@@ -11,6 +11,7 @@ function [LT,T,PHID] = LT(input,inputtype,resolution)
 %         type 2: three matrixes with same rows and columns£¬they are 
 %                 grided x, y, and z matrixes.
 %     inputtype - the type of input matrix, it could be 1 or 2; 
+%     resolution - the data resolution
 %
 % OUTPUTS
 %     LT - bedform wavelength of interest
