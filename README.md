@@ -25,14 +25,14 @@ The function LT can be used to calculate the wavelength of interest, and display
 
 Here is the example:
 
-[LT, T, PHID] = LT('D:\DPA\testdata_type_2.mat', 2);
+[LT, T, PHID] = LT('D:\DPA\testdata_type_2.mat', 2，1);
 1
 2
 .
 .
 13 
 
-There are 2 wavelength(s) of interest, they are 9 m, 208 m.
+There are 2 wavelength(s) of interest, they are 10 m, 208 m.
 
 ### 3.	Dune geometries analyses
 
@@ -42,9 +42,9 @@ There are two wavelengths of interest in the example data, so we need to run it 
 
 Here is the example: 
 
-First run: 9 m as the wavelength of interest.
+First run: 10 m as the wavelength of interest.
 
-DPA('D:\ DPA\', 'test1', 'D:\DPA\testdata_type_2.mat', 2, 9, 1);
+DPA('D:\ DPA\', 'test1', 'D:\DPA\testdata_type_2.mat', 2, 10, 1);
 
 The subset 1_1 is finished. (1/55)
 .
