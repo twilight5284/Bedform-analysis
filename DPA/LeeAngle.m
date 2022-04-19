@@ -21,7 +21,7 @@ LAmax = [];
 LAMax = [];
 loc = [];
 
-% LAC(:,2) = smooth(LAC(:,2),size(LAC,1)/3,'moving'); % ²»Æ½»¬¼ÆËãlee slope
+% LAC(:,2) = smooth(LAC(:,2),size(LAC,1)/3,'moving'); % Â²Â»Ã†Â½Â»Â¬Â¼Ã†Ã‹Ã£lee slope
 
 DL1 = Or * diff(LAC(:,2))/resolution;
 
@@ -33,7 +33,7 @@ else
     LAMax = find(LA0 == max(LA0(2:end-1)));
 end    
 loc = mean(LAMax);
-LAC(:,3) = smooth(LAC(:,2),floor(size(LAC,1)/2.5));
+LAC(:,3) = smooth(LAC(:,2),max(1,floor(size(LAC,1)/2.5)));
 DL2 = diff(LAC(:,3),2)/resolution;
 if size(DL2,1) < 3 
     LAmean = mean(LA0(find(LA0>0)));
