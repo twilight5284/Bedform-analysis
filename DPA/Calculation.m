@@ -26,7 +26,7 @@ function [phiM,lambdaM,L_M,H_M,BPf,CT0]=Calculation(filepath,projectname,x,y,z,L
 %% calculate the dune regional pattern by 2-D DFT
 [dirArrayM,lambdaArrayM,phiM0,stdDir,lambdaM,stdLambda] = wlFFT(x,y,z,L,resolution);
 
-phiM=90;
+phiM=phiM0;
 %% rotate the surface according to the dune orientation 
 [X,Y,Z,Z0,Xb,Yb] = Rot_Grid(x,y,z,phiM,L,resolution);
 
